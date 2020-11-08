@@ -1,0 +1,57 @@
+{
+  "name": "daily-server-v3",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf dist",
+    "dev": "cross-env NODE_ENV=development nodemon ./src/app --exec babel-node",
+    "start": "npm run dev",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "prettier": "prettier --write src/.",
+    "babel": "babel ./src --out-dir dist",
+    "build": "cross-env NODE_ENV=production npm run clean && npm run babel",
+    "pm2": "pm2 start pm2.json"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.6",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-proposal-decorators": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "awilix": "^4.2.7",
+    "awilix-express": "^3.0.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "env2": "^2.2.2",
+    "express": "^4.16.4",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "mysql2": "^2.2.5",
+    "pm2": "^4.5.0",
+    "pug": "2.0.0-beta11",
+    "sequelize": "^6.3.5"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.13.0",
+    "eslint-config-alloy": "^3.8.2",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.1",
+    "prettier": "^2.1.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
