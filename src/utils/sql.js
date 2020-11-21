@@ -6,27 +6,11 @@ export function getAttributeSql(params = []) {
     attributes: params
   };
 }
-// 分页查询 sql
-export function getListSql(params = {}) {
-  const { page = 1, size = 10, order = 'DESC', sort = 'WEIGHT', query = {}, ...rest } = params;
-  const offset = (page - 1) * size;
-  const sortBy = sort.toLocaleLowerCase();
-  return {
-    ...rest,
-    limit: parseInt(size) || 10, // 限制 10 条,
-    offset: parseInt(offset), // 跳过前面 offset 个元素
-    order: [[sortBy, order]],
-    where: {
-      ...query
-    }
-  };
-}
+
 // 获得查找 sql
 export function getFindSql(item) {
   return {
-    where: {
-      ...item
-    }
+    where: { ...item }
   };
 }
 
@@ -54,11 +38,10 @@ export function getFuzzySql(ids = [], item = {}) {
     };
   }, {});
   return {
-    where: {
-      ...findObj
-    }
+    where: { ...findObj }
   };
 }
+
 // 过滤为空的字段
 export function getNotNullSql(id) {
   let filterObj = {};
@@ -80,8 +63,20 @@ export function getNotNullSql(id) {
     };
   }
   return {
-    where: {
-      ...filterObj
-    }
+    where: { ...filterObj }
+  };
+}
+
+// 分页查询 sql
+export function getPageSql(params = {}) {
+  console.log(params, 'getPageSql -> params');
+  const { page = 1, size = 10, order = 'DESC', sort = 'create_time', ...query } = params;
+  const offset = (page - 1) * size;
+  const sortBy = sort.toLocaleLowerCase();
+  return {
+    limit: Number(size) || 10, // 限制 10 条,
+    offset: Number(offset), // 跳过前面 offset 个元素
+    order: [[sortBy, order]],
+    ...getFuzzySql(Object.keys(query), query)
   };
 }

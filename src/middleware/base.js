@@ -1,27 +1,26 @@
+import { formatDate } from '@/utils';
 import { asValue } from 'awilix';
 
 export function baseMiddleware(app) {
   return (req, res, next) => {
-    res.success = (data, error = null, message = '成功', status = 0) => {
+    res.success = ({ data, error = null, message = '成功', status = 200 }) => {
       res.json({
         error,
         message,
         data,
         status,
         success: true,
-        timestamp: new Date(),
-        type: 'SUCCESS'
+        timestamp: formatDate(new Date())
       });
     };
-    res.fail = (data, error = null, message = '失败', status = 0) => {
+    res.fail = ({ data, error = null, message = '失败', status = 500 }) => {
       res.json({
         error,
         message,
         data,
         status,
         success: false,
-        timestamp: new Date(),
-        type: 'FAIL'
+        timestamp: formatDate(new Date())
       });
     };
 

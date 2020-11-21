@@ -1,7 +1,5 @@
 module.exports = {
-  extends: [
-    'alloy'
-  ],
+  extends: ['alloy'],
   env: {
     // 设置的环境变量（包含多个预定义的全局变量）
     // browser: true,
@@ -20,6 +18,13 @@ module.exports = {
     'no-return-assign': 'off',
     'guard-for-in': 'off',
     'no-async-promise-executor': 'off',
-    'prefer-promise-reject-errors': 'off'
+    'prefer-promise-reject-errors': 'off',
+    'max-params': ['error', 4]
+  },
+  parserOptions: {
+    parser: 'babel-eslint',
+    ecmaFeatures: {
+      legacyDecorators: true
+    }
   }
 };

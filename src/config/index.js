@@ -1,4 +1,4 @@
-require('env2')('../../.env');
+require('env2')('.env');
 const { env } = process;
 
 export default {

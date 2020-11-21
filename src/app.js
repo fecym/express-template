@@ -9,6 +9,7 @@ import { asClass, Lifetime } from 'awilix';
 import { scopePerRequest, loadControllers } from 'awilix-express';
 
 import { baseMiddleware } from './middleware/base';
+import jwtMiddleware from './middleware/jwt';
 import initialize from './initialize/index';
 import container from './container/index';
 import config from './config/index';
@@ -29,7 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(scopePerRequest(container));
 app.use(baseMiddleware(app));
-
+// 处理 token
+app.use(jwtMiddleware);
 app.use(
   '/api',
   loadControllers('./api/*Api.js', {

@@ -10,27 +10,25 @@ export default function (sequelize, DataTypes) {
         autoIncrement: true
       },
       name: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(32),
         allowNull: false
       },
-      nickname: {
-        type: DataTypes.STRING
+      loginName: {
+        type: DataTypes.STRING(16),
+        field: 'login_name',
+        allowNull: false,
+        unique: true
       },
       password: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(32),
         allowNull: false
       },
-      mobile: {
-        type: DataTypes.STRING
-      },
-      sign: {
-        type: DataTypes.STRING
-      },
-      sex: {
-        type: DataTypes.STRING
-      },
       role: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING(8),
+        defaultValue: '0'
+      },
+      avatar: {
+        type: DataTypes.STRING(50)
       }
     },
     {

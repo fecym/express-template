@@ -1,30 +1,35 @@
 import BaseDao from './base';
 
-import { getListSql, getUpdateSql, getFindSql } from '../utils/sql';
+import { getPageSql, getUpdateSql, getFindSql, getFuzzySql } from '@/utils/sql';
 
 export default class UserDao extends BaseDao {
   modelName = 'User';
 
-  async findPage(params = {}) {
-    const listParams = getListSql(params);
-    const sql = {
-      ...listParams
-    };
-    return await this.findAndCountAll(sql);
-  }
-  async addItem(item) {
+  async createUser(item) {
     return await this.insert(item);
   }
-  async updateItem(item) {
-    const { params, query } = getUpdateSql('id', { ...item, id: item.id });
+  async updateUserById(id, userInfo, primaryKey = 'id') {
+    const { params, query } = getUpdateSql(primaryKey, { ...userInfo, id });
     return await this.update(params, query);
   }
-  async deleteItem(item) {
-    const query = getFindSql(item);
+  async deleteUser(params) {
+    const query = getFindSql(params);
     return await this.delete(query);
   }
-  async findItem(params) {
+  async restoreUser(params) {
     const query = getFindSql(params);
-    return await this.findOne(query);
+    return await this.restore(query);
+  }
+  async getUserInfo(params = {}) {
+    const query = getFindSql(params);
+    return await this.findOne(query, ['password']);
+  }
+  async getList(params = {}) {
+    const query = getFuzzySql(Object.keys(params), params);
+    return await this.findAll(query, ['password']);
+  }
+  async getPage(params = {}) {
+    const pageParams = getPageSql(params);
+    return await this.findAndCountAll(pageParams, ['password']);
   }
 }

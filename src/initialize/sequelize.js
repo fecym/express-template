@@ -7,8 +7,9 @@ const defaultConfig = {
   dialect: 'mysql',
   port: 3306,
   define: {
-    updatedAt: 'update_date',
-    createdAt: 'create_date'
+    updatedAt: 'update_time',
+    createdAt: 'create_time',
+    deletedAt: 'deleted_time'
   },
   pool: {
     max: 100,
@@ -20,15 +21,7 @@ const defaultConfig = {
 
 export function initSequelize(config) {
   const { host, database, username, password, port } = config;
-  sequelize = new Sequelize(
-    database,
-    username,
-    password,
-    Object.assign({}, defaultConfig, {
-      host,
-      port
-    })
-  );
+  sequelize = new Sequelize(database, username, password, { ...defaultConfig, host, port });
   return sequelize;
 }
 
